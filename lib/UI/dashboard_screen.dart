@@ -97,26 +97,34 @@ class _DashboardState extends State<Dashboard> {
           Column(
             children: [
               const Text(
-                "56271.68",
-                style: TextStyle(color: AppTextColors.white),
+                "\$56,271.68",
+                style: TextStyle(
+                    color: AppTextColors.white, fontSize: 35, fontWeight: FontWeight.bold),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("+9,736", style: TextStyle(color: AppTextColors.white)),
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.arrow_upward_sharp,
-                        color: AppTextColors.green,
-                      ),
-                      Text(
-                        "2.3%",
-                        style: TextStyle(color: AppTextColors.green),
-                      )
-                    ],
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 4, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("+\$9,736",
+                        style: TextStyle(color: AppTextColors.white, fontSize: 18)),
+                    SizedBox(
+                      width: size.width * .05,
+                    ),
+                    Row(
+                      children: const [
+                        Icon(
+                          Icons.arrow_upward_sharp,
+                          color: AppTextColors.green,
+                        ),
+                        Text(
+                          "2.3%",
+                          style: TextStyle(color: AppTextColors.green, fontSize: 18),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
               const Text(
                 "ACCOUNT BALANCE",
@@ -124,17 +132,17 @@ class _DashboardState extends State<Dashboard> {
               )
             ],
           ),
+          const SizedBox(height: 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               panelBottomBlock("12", "Following"),
-              const VerticalDivider(
-                  color: AppTextColors.white30, width: 10, thickness: 3, endIndent: 20),
+              Divider(),
               panelBottomBlock("36", "Transaction"),
               const VerticalDivider(),
               panelBottomBlock("4", "Bills"),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -145,7 +153,15 @@ class _DashboardState extends State<Dashboard> {
     String subTitle,
   ) {
     return Column(
-      children: [Text(title), Text(subTitle)],
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Text(title,
+              style: const TextStyle(
+                  color: AppTextColors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+        ),
+        Text(subTitle, style: const TextStyle(color: AppTextColors.white30, fontSize: 13))
+      ],
     );
   }
 }
