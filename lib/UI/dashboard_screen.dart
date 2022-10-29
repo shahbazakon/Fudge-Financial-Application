@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/assets_path.dart';
 import '../constants/colors.dart';
+import '../widgets/list_tile.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -19,9 +20,31 @@ class _DashboardState extends State<Dashboard> {
         body: Column(
           children: [
             appBar(size),
-            SingleChildScrollView(
-              child: Column(
-                children: [topPanel(size)],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    topPanel(size),
+                    sectionHeadline("Performance Cart", isShowMoreButton: true, onTapMore: () {
+                      //TODO: add "More Button" Functionality
+                    }),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, left: 8),
+                      child: Image.asset(AssetsPath.graph),
+                    ),
+                    sectionHeadline(
+                      "Top User From your community",
+                      isShowMoreButton: false,
+                    ),
+                    topUsersList(size),
+                    sectionHeadline("Recent Transactions", isShowMoreButton: true, onTapMore: () {
+                      //TODO: add "More Button" Functionality
+                    }),
+                    recentTransactionList(size),
+                    sectionHeadline("financial Goals", isShowMoreButton: false),
+                    financialGoalsListBar(size),
+                  ],
+                ),
               ),
             ),
           ],
@@ -73,7 +96,7 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             Image.asset(
-              AssetsPath.processCircle,
+              AssetsPath.circleUserProfile,
               height: 25,
             ),
           ],
@@ -86,11 +109,11 @@ class _DashboardState extends State<Dashboard> {
   Container topPanel(Size size) {
     return Container(
       width: size.width,
-      height: size.height * .4,
+      height: size.height * .32,
       decoration: const BoxDecoration(
           color: AppColors.blueSecondary,
           borderRadius:
-              BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+              BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(20))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -132,14 +155,21 @@ class _DashboardState extends State<Dashboard> {
               )
             ],
           ),
-          const SizedBox(height: 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               panelBottomBlock("12", "Following"),
-              Divider(),
+              Container(
+                height: 50,
+                width: 1,
+                color: AppTextColors.white30,
+              ),
               panelBottomBlock("36", "Transaction"),
-              const VerticalDivider(),
+              Container(
+                height: 50,
+                width: 1,
+                color: AppTextColors.white30,
+              ),
               panelBottomBlock("4", "Bills"),
             ],
           ),
@@ -164,4 +194,148 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
   }
+}
+
+///page Secretion HeadLine
+ListTile sectionHeadline(String title, {bool? isShowMoreButton = true, Function()? onTapMore}) {
+  return ListTile(
+      title: Text(
+        title.toUpperCase(),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      trailing: InkWell(
+        onTap: onTapMore,
+        child: isShowMoreButton ?? false
+            ? Container(
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.grey,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Text("MORE", style: TextStyle(color: AppTextColors.white)),
+              )
+            : const SizedBox(),
+      ));
+}
+
+/// Top User List
+SizedBox topUsersList(Size size) {
+  return SizedBox(
+    height: size.height * .1,
+    child: GridView.count(
+      crossAxisCount: 1,
+      scrollDirection: Axis.horizontal,
+      children: [
+        topUsersProfile("Jayden", AssetsPath.dp1),
+        topUsersProfile("Mike", AssetsPath.dp2),
+        topUsersProfile("Nikki", AssetsPath.dp3),
+        topUsersProfile("Oslo", AssetsPath.dp4),
+        topUsersProfile("Jayden", AssetsPath.dp1),
+        topUsersProfile("Mike", AssetsPath.dp2),
+        topUsersProfile("Nikki", AssetsPath.dp3),
+        topUsersProfile("Oslo", AssetsPath.dp4),
+      ],
+    ),
+  );
+}
+
+FittedBox topUsersProfile(String userName, String userProfilePic) {
+  return FittedBox(
+    child: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(userProfilePic),
+        ),
+        Text(
+          userName,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        )
+      ],
+    ),
+  );
+}
+
+/// Recent Transaction List
+SizedBox recentTransactionList(Size size) {
+  return SizedBox(
+    height: size.height * .35,
+    child: ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      children: const [
+        TransactionListTile(
+          leading: AssetsPath.user,
+          title: "John Doe",
+          subTitle: "United Kingdom",
+          trallingTitle: "80,000 AED",
+          trallingSubTitle: "11 Aug 2021",
+          trallingIcon: AssetsPath.processCircle,
+        ),
+        TransactionListTile(
+          leading: AssetsPath.user,
+          title: "John Doe",
+          subTitle: "United Kingdom",
+          trallingTitle: "80,000 AED",
+          trallingSubTitle: "11 Aug 2021",
+          trallingIcon: AssetsPath.checkCircle,
+        ),
+        TransactionListTile(
+          leading: AssetsPath.user,
+          title: "John Doe",
+          subTitle: "United Kingdom",
+          trallingTitle: "80,000 AED",
+          trallingSubTitle: "11 Aug 2021",
+          trallingIcon: AssetsPath.checkCircle,
+        ),
+        TransactionListTile(
+          leading: AssetsPath.user,
+          title: "John Doe",
+          subTitle: "United Kingdom",
+          trallingTitle: "80,000 AED",
+          trallingSubTitle: "11 Aug 2021",
+          trallingIcon: AssetsPath.checkCircle,
+        )
+      ],
+    ),
+  );
+}
+
+///Financial Goals
+
+Column financialGoalsListBar(Size size) {
+  return Column(
+    children: [
+      financialGoalsTiles(size, "XX of total XX", AppColors.blue, .3),
+      financialGoalsTiles(size, "XX of total XX", AppColors.red, .7),
+      financialGoalsTiles(size, "XX of total XX", AppColors.greenAccent, .6),
+    ],
+  );
+}
+
+Widget financialGoalsTiles(
+    Size size, String? title, Color? progressBarColor, double? progressPercentage) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 2, bottom: 8),
+          child: Text(
+            title!,
+            style: const TextStyle(fontSize: 16, color: AppTextColors.black26),
+          ),
+        ),
+        SizedBox(
+          width: size.width * .87,
+          child: LinearProgressIndicator(
+            color: progressBarColor,
+            minHeight: 5,
+            value: progressPercentage,
+            backgroundColor: AppColors.greyLite,
+          ),
+        ),
+      ],
+    ),
+  );
 }
