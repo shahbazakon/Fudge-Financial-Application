@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../constants/assets_path.dart';
 import '../constants/colors.dart';
 import '../widgets/appbar.dart';
+import 'TabSceen1.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class CardScreen extends StatefulWidget {
 
 class _CardScreenState extends State<CardScreen> with SingleTickerProviderStateMixin {
   late final TabController _tabController = TabController(
-    length: 3,
+    length: 4,
     vsync: this,
   );
   final cardList = [
@@ -29,42 +30,12 @@ class _CardScreenState extends State<CardScreen> with SingleTickerProviderStateM
     return Scaffold(
       appBar: const BuildAppBar(),
       body: Column(
-        children: [
-          swiperCards(context, size),
-          TabBar(
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorColor: AppColors.blueSecondary,
-              isScrollable: true,
-              controller: _tabController,
-              indicatorPadding: const EdgeInsets.all(6),
-              labelColor: AppColors.blueSecondary,
-              unselectedLabelColor: AppColors.greyLite,
-              tabs: const [
-                Tab(
-                  text: "Menu Title 1",
-                ),
-                Tab(
-                  text: "Menu Title 2",
-                ),
-                Tab(
-                  text: "Menu Title 3",
-                ),
-                Tab(
-                  text: "Menu Title 4",
-                ),
-              ]),
-          Expanded(
-            child: TabBarView(controller: _tabController, children: const [
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_bike),
-            ]),
-          )
-        ],
+        children: [swiperCards(context, size), tabBar(), tabScreens()],
       ),
     );
   }
 
+  /// Swipe Card Panel
   Widget swiperCards(BuildContext context, Size size) {
     return SizedBox(
       height: size.height * .3,
@@ -88,6 +59,44 @@ class _CardScreenState extends State<CardScreen> with SingleTickerProviderStateM
               activeColor: AppColors.blueSecondary),
         ),
       ),
+    );
+  }
+
+  /// TabBar
+  TabBar tabBar() {
+    return TabBar(
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: AppColors.blueSecondary,
+        isScrollable: true,
+        controller: _tabController,
+        indicatorPadding: const EdgeInsets.all(6),
+        labelColor: AppColors.blueSecondary,
+        unselectedLabelColor: AppColors.greyLite,
+        tabs: const [
+          Tab(
+            text: "Menu Title 1",
+          ),
+          Tab(
+            text: "Menu Title 2",
+          ),
+          Tab(
+            text: "Menu Title 3",
+          ),
+          Tab(
+            text: "Menu Title 4",
+          ),
+        ]);
+  }
+
+  ///TabBar
+  Expanded tabScreens() {
+    return Expanded(
+      child: TabBarView(controller: _tabController, children: const [
+        TabScreen1(),
+        TabScreen1(),
+        TabScreen1(),
+        TabScreen1(),
+      ]),
     );
   }
 }

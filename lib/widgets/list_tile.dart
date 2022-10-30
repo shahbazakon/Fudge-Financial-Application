@@ -27,6 +27,7 @@ class TransactionListTile extends StatefulWidget {
 class _TransactionListTileState extends State<TransactionListTile> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       child: Row(
@@ -40,8 +41,11 @@ class _TransactionListTileState extends State<TransactionListTile> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
-                child: Text(widget.title!,
-                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+                child: SizedBox(
+                  width: size.width * .4,
+                  child: Text(widget.title!,
+                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+                ),
               ),
               Text(widget.subTitle!, style: const TextStyle(color: AppTextColors.black26))
             ],

@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../constants/assets_path.dart';
 import '../constants/colors.dart';
+import '../models/users_model.dart';
+import '../services/API_services.dart';
 import '../widgets/list_tile.dart';
 import 'card_screen.dart';
 
@@ -13,6 +17,22 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<Users>? topUserList;
+  getUser() async {
+    topUserList = await APIServices().getTopUsers();
+    if (topUserList != null) {
+      return topUserList;
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -44,7 +64,7 @@ class _DashboardState extends State<Dashboard> {
                           context, MaterialPageRoute(builder: (context) => const CardScreen()));
                     }),
                     recentTransactionList(size),
-                    sectionHeadline("financial Goals", isShowMoreButton: false),
+                    sectionHeadline("financial Goals"),
                     financialGoalsListBar(size),
                   ],
                 ),
@@ -58,6 +78,7 @@ class _DashboardState extends State<Dashboard> {
 
   /// Main AppBar
   Container appBar(Size size) {
+    log("topUserList![0].username? ${topUserList![0].username}");
     return Container(
       width: size.width,
       decoration: const BoxDecoration(color: AppColors.blueSecondary),
@@ -70,18 +91,22 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 4),
-                  child: RichText(
-                    text: const TextSpan(
-                        text: "Hola, ",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                        children: [
-                          TextSpan(text: "Michael", style: TextStyle(fontWeight: FontWeight.w400))
-                        ]),
-                  ),
+                  child: topUserList != null
+                      ? RichText(
+                          text: TextSpan(
+                              text: "Hello, ",
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                              children: [
+                                TextSpan(
+                                    text: topUserList![2].username,
+                                    style: const TextStyle(fontWeight: FontWeight.w400))
+                              ]),
+                        )
+                      : const CircularProgressIndicator(color: AppColors.white),
                 ),
-                const Text(
-                  "Te tenemos exelentes noticias para ti",
-                  style: TextStyle(color: AppTextColors.white, fontSize: 11),
+                Text(
+                  "${topUserList![2].company!.name}",
+                  style: const TextStyle(color: AppTextColors.white, fontSize: 11),
                 )
               ],
             ),
@@ -200,7 +225,7 @@ class _DashboardState extends State<Dashboard> {
 }
 
 ///page Secretion HeadLine
-ListTile sectionHeadline(String title, {bool? isShowMoreButton = true, Function()? onTapMore}) {
+ListTile sectionHeadline(String title, {bool? isShowMoreButton = false, Function()? onTapMore}) {
   return ListTile(
       title: Text(
         title.toUpperCase(),
