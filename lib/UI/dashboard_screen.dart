@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/assets_path.dart';
@@ -18,12 +19,13 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   List<Users>? topUserList;
+  bool isLoading = true;
+
   getUser() async {
     topUserList = await APIServices().getTopUsers();
     if (topUserList != null) {
+      setState(() {});
       return topUserList;
-    } else {
-      return null;
     }
   }
 
@@ -38,46 +40,51 @@ class _DashboardState extends State<Dashboard> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            appBar(size),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    topPanel(size),
-                    sectionHeadline("Performance Cart", isShowMoreButton: true, onTapMore: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => const CardScreen()));
-                    }),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20, left: 8),
-                      child: Image.asset(AssetsPath.graph),
+        body: topUserList != null
+            ? Column(
+                children: [
+                  appBar(size),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          topPanel(size),
+                          sectionHeadline("Performance Chart", isShowMoreButton: true,
+                              onTapMore: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => const CardScreen()));
+                          }),
+
+                          ///GraphPNG
+                          /*Padding(
+                            padding: const EdgeInsets.only(right: 20, left: 8),
+                            child: Image.asset(AssetsPath.graph),
+                          ),*/
+                          chart(size),
+                          sectionHeadline("Top User From your community"),
+                          topUsersList(size),
+                          sectionHeadline("Recent Transactions", isShowMoreButton: true,
+                              onTapMore: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => const CardScreen()));
+                          }),
+                          recentTransactionList(size),
+                          sectionHeadline("financial Goals"),
+                          financialGoalsListBar(size),
+                        ],
+                      ),
                     ),
-                    sectionHeadline(
-                      "Top User From your community",
-                      isShowMoreButton: false,
-                    ),
-                    topUsersList(size),
-                    sectionHeadline("Recent Transactions", isShowMoreButton: true, onTapMore: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => const CardScreen()));
-                    }),
-                    recentTransactionList(size),
-                    sectionHeadline("financial Goals"),
-                    financialGoalsListBar(size),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+                  ),
+                ],
+              )
+            : const Center(child: CircularProgressIndicator(color: AppColors.blueSecondary)),
       ),
     );
   }
 
   /// Main AppBar
   Container appBar(Size size) {
+    log("topUserList $topUserList");
     log("topUserList![0].username? ${topUserList![0].username}");
     return Container(
       width: size.width,
@@ -91,18 +98,16 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 4),
-                  child: topUserList != null
-                      ? RichText(
-                          text: TextSpan(
-                              text: "Hello, ",
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                              children: [
-                                TextSpan(
-                                    text: topUserList![2].username,
-                                    style: const TextStyle(fontWeight: FontWeight.w400))
-                              ]),
-                        )
-                      : const CircularProgressIndicator(color: AppColors.white),
+                  child: RichText(
+                    text: TextSpan(
+                        text: "Hello, ",
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        children: [
+                          TextSpan(
+                              text: "${topUserList![2].username}",
+                              style: const TextStyle(fontWeight: FontWeight.w400))
+                        ]),
+                  ),
                 ),
                 Text(
                   "${topUserList![2].company!.name}",
@@ -244,6 +249,95 @@ ListTile sectionHeadline(String title, {bool? isShowMoreButton = false, Function
               )
             : const SizedBox(),
       ));
+}
+
+/// performance Chart
+Container chart(Size size) {
+  return Container(
+    padding: const EdgeInsets.only(right: 20, left: 8),
+    height: size.height * .23,
+    width: size.width,
+    child: LineChart(
+      LineChartData(
+          minX: 0,
+          maxX: 6,
+          minY: 0,
+          maxY: 500,
+          titlesData: FlTitlesData(
+              show: true,
+              rightTitles: AxisTitles(),
+              topTitles: AxisTitles(),
+              leftTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: true, reservedSize: 35, interval: 250)),
+              bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  if (value.toInt() == 0) {
+                    return chartBottomLabel("JAN");
+                  }
+                  if (value.toInt() == 1) {
+                    return chartBottomLabel("FEB");
+                  }
+                  if (value.toInt() == 2) {
+                    return chartBottomLabel("MAR");
+                  }
+                  if (value.toInt() == 3) {
+                    return chartBottomLabel("APR");
+                  }
+                  if (value.toInt() == 4) {
+                    return chartBottomLabel("MAY");
+                  }
+                  if (value.toInt() == 5) {
+                    return chartBottomLabel("JUN");
+                  } else {
+                    return chartBottomLabel("");
+                  }
+                },
+              ))),
+          backgroundColor: Colors.deepPurple.shade900.withOpacity(.1),
+          borderData: FlBorderData(show: false),
+          gridData: FlGridData(
+            show: true,
+            drawHorizontalLine: false,
+            getDrawingVerticalLine: (value) {
+              return FlLine(color: AppColors.white, strokeWidth: 3);
+            },
+          ),
+          lineTouchData: LineTouchData(
+              touchTooltipData: LineTouchTooltipData(tooltipBgColor: AppColors.white)),
+          lineBarsData: [
+            LineChartBarData(
+                color: AppColors.blue,
+                barWidth: 1.3,
+                isCurved: true,
+                dotData: FlDotData(show: false),
+                spots: [
+                  const FlSpot(0, 275),
+                  const FlSpot(1.2, 250),
+                  const FlSpot(1.9, 425),
+                  // const FlSpot(2.5, 390),
+                  const FlSpot(2.9, 330),
+                  const FlSpot(3.3, 310),
+                  const FlSpot(3.7, 150),
+                  const FlSpot(4.2, 166),
+                  const FlSpot(4.8, 240),
+                  const FlSpot(5.2, 235),
+                  const FlSpot(5.6, 190),
+                  const FlSpot(6, 90),
+                ])
+          ]),
+      swapAnimationDuration: const Duration(milliseconds: 150), // Optional
+      swapAnimationCurve: Curves.linear, // Optional
+    ),
+  );
+}
+
+Widget chartBottomLabel(String label) {
+  return Text(
+    label,
+    style: const TextStyle(color: AppTextColors.black26, fontSize: 12),
+  );
 }
 
 /// Top User List
