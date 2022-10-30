@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants/assets_path.dart';
 import '../constants/colors.dart';
 import '../widgets/list_tile.dart';
+import 'card_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -26,7 +27,8 @@ class _DashboardState extends State<Dashboard> {
                   children: [
                     topPanel(size),
                     sectionHeadline("Performance Cart", isShowMoreButton: true, onTapMore: () {
-                      //TODO: add "More Button" Functionality
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const CardScreen()));
                     }),
                     Padding(
                       padding: const EdgeInsets.only(right: 20, left: 8),
@@ -38,7 +40,8 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     topUsersList(size),
                     sectionHeadline("Recent Transactions", isShowMoreButton: true, onTapMore: () {
-                      //TODO: add "More Button" Functionality
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const CardScreen()));
                     }),
                     recentTransactionList(size),
                     sectionHeadline("financial Goals", isShowMoreButton: false),
