@@ -8,7 +8,7 @@
 | <img src="https://user-images.githubusercontent.com/57652434/199001447-2650d928-d2c3-4151-bc17-636fb7eba03d.gif" width="400" text-align = "center" >  | **✅ Flutter Used to Implement this App.** <br><br>  **✅ UI and Business Logics should be separated.** <br><br> **✅ App should work on both IOS and Android.** <br><br> **✅ Chart is animating from the right.**
 
 
-#Run App
+# How to Run App
 
 ## Instructions For iOS (in Mac)
 
