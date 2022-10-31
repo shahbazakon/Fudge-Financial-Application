@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.errorxperts.fudge_finance.fudge_finance">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="fudge_finance"
         android:name="${applicationName}"

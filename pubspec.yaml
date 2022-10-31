@@ -42,7 +42,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.1
   card_swiper: ^2.0.4
-  http:
+  http: ^0.13.5
   fl_chart: ^0.55.2
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
