@@ -1,22 +1,36 @@
 # Fudge Financial Application
+![Purple App Phone Mockup Sales Marketing Presentation](https://user-images.githubusercontent.com/57652434/199001948-8d681b19-7265-4130-aa06-f44fe890e271.png)
+<!-- <img src="https://user-images.githubusercontent.com/57652434/199001447-2650d928-d2c3-4151-bc17-636fb7eba03d.gif" width="400" text-align = "center" > -->
 
-A new Flutter project.
+<div display = "grid" grid-template-columns= "auto auto" >
+ <div>
+   <h1>Application Preview</h1>
+ <img src="https://user-images.githubusercontent.com/57652434/199001447-2650d928-d2c3-4151-bc17-636fb7eba03d.gif" width="400" text-align = "center" >
+ </div>
 
-## INSTRUCTIONS
-
- ✅ Flutter Used to Implement this App.
+ <div>
+  <h2> INSTRUCTIONS</h2>
   
- ✅ UI and Business Logics should be separated 
+   ✅ Flutter Used to Implement this App. 
+  
+   ✅ UI and Business Logics should be separated.
+   
+   ✅ App should work on both IOS and Android.
+   
+   ✅ Chart is animating from the right.
+ </div>
+</div>
+
+
+
+
+  
  
- ✅ App should work on both IOS and Android
  
- ✅ Chart is animating from the right.
+ 
+ 
+ 
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
