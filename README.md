@@ -1,10 +1,16 @@
-# fudge_finance
+# Fudge Financial Application
 
 A new Flutter project.
 
-## Getting Started
+## INSTRUCTIONS
 
-This project is a starting point for a Flutter application.
+ ✅ Flutter Used to Implement this App.
+  
+ ✅ UI and Business Logics should be separated 
+ 
+ ✅ App should work on both IOS and Android
+ 
+ ✅ Chart is animating from the right.
 
 A few resources to get you started if this is your first Flutter project:
 
